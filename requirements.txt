@@ -1,0 +1,11 @@
+# 核心Web框架
+flask==2.3.3
+
+# 用于HTTP请求，调用AI API
+requests==2.31.0
+
+# 用于加载环境变量（.env文件）
+python-dotenv==1.0.0
+
+# 用于生成和操作Word文档（实现导出功能）
+python-docx==0.8.11

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能翻译API - 模块一实现</title>
+    <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-language"></i> 智能翻译
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                        <h4 class="mb-0"><i class="fas fa-translate"></i> 智能翻译工具</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="translationForm">
+                            <div class="mb-3">
+                                <label for="textInput" class="form-label">英文文本：</label>
+                                <textarea class="form-control" id="textInput" rows="6" 
+                                          placeholder="请输入要翻译的英文文本..."></textarea>
+                                <div class="form-text">支持长文本翻译，最大长度8000字符</div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="includeVocabulary" checked>
+                                        <label class="form-check-label" for="includeVocabulary">
+                                            提取专业词汇
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="wordFormat">
+                                        <label class="form-check-label" for="wordFormat">
+                                            生成Word文档
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg w-100" id="translateBtn">
+                                <i class="fas fa-play"></i> 开始翻译
+                            </button>
+                        </form>
+                        
+                        <div id="loading" class="text-center mt-4 d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">加载中...</span>
+                            </div>
+                            <p class="mt-2">正在处理您的请求...</p>
+                        </div>
+                        
+                        <div id="result" class="mt-4 d-none">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0"><i class="fas fa-check-circle"></i> 翻译完成</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label"><strong>中文翻译：</strong></label>
+                                        <div class="translation-output p-3 bg-light rounded" id="translationOutput"></div>
+                                    </div>
+                                    
+                                    <div id="vocabularySection" class="d-none">
+                                        <label class="form-label"><strong>专业词汇表：</strong></label>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="vocabularyTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>英文术语</th>
+                                                        <th>中文翻译</th>
+                                                        <th>解释说明</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="downloadSection" class="mt-3 d-none">
+                                        <a href="#" class="btn btn-success" id="downloadBtn">
+                                            <i class="fas fa-download"></i> 下载Word文档
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="error" class="alert alert-danger mt-4 d-none"></div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-info-circle"></i> API测试信息</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>API端点：</strong> POST /api/v1/translate</p>
+                        <p><strong>请求示例：</strong></p>
+                        <pre class="bg-light p-3 rounded"><code>{
+  "text": "Machine learning is a subset of artificial intelligence...",
+  "output_format": "word",
+  "include_vocabulary": true
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/translation.js') }}"></script>
+</body>
+</html>
